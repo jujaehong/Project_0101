@@ -9,36 +9,36 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def main():
-    st.title('인천광역시_숙박업소현황_202209')
+    menu = ['Home', 'EDA', 'ML']
+    choice = st.sidebar.selectbox('메뉴', menu)
 
-    df = pd.read_csv('인천광역시_숙박업소현황_202209.csv') # 데이터 불러오기
+    st.title('A/S접수에 의한 품질 데이터 분석')
+
+    file_uploader1 = st.file_uploader('접수데이터', key='file_uploader1')
     
-    if st.button('데이터 보기') :
-        st.dataframe(df)
+    st.header('A/S 접수 데이터')
+    
+    if  file_uploader1 is not None:
+        df_a = pd.read_csv(file_uploader1)
+        st.dataframe(df_a)
+
+    
+    # 제조년별 a/s접수 수량 보기
+    st.subheader('최대 / 최소 데이터 확인하기')
+    df_a['제조년'].value_counts().sort_index()
+    column = st.selectbox('컬럼을 선택하세요.', df_a.columns[3:])
+    st.text('최대 데이터')
+    st.dataframe(df_a[df[column] == df_a[column].max()])
 
     # petal_length 컬럼을 정렬하고 싶다.
     # 오름차순정렬, 내림차순정렬 두가지 옵션 선택토록
 
-    status = st.radio('정렬을 선택하세요', ['오름차순','내림차순']) 
-    
-    if status == '오름차순' :
-        st.dataframe(df.sort_values('객실수'))
-    elif status == '내림차순' :
-        st.dataframe(df.sort_values('객실수',ascending=False))
-    
-    # 데이터 프레임의 컬럼이름을 보여주고,
-    # 유저가 컬럼을 선택하면
-    # 해당컬럼만 가져와서 데이터프레임을 보여주고 싶다.
 
-    # df.columns (컬럼 가져오기)  
-    # multiselect 
-    column_list = st.multiselect('컬럼을 선택하세요',df.columns)
-
-    print(column_list)
-
-    # 선택한 컬럼으로 데이터프레임 보여주기!
-    st.dataframe(df[column_list])
-
+    st.subheader('이 영역은 서브헤더 영역')
+    st.success('성공했을때 나타내고 싶은 문장')
+    st.warning('경고하고 싶을때 문장')
+    st.info('알림을 주고 싶을때')
+    st.error('문제가 발생했음을 알려주고 싶을때')   
 
 
 

@@ -4,11 +4,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+df_year = pd.read_csv('df_total.csv',index_col=0)
 
 # 경고 비활성화
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
-df_year = pd.read_csv('df_total',index_col=0)
 
 def run_app_불량원인():
    
@@ -17,7 +17,7 @@ def run_app_불량원인():
         st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
 
         # 체크박스로 표시할 년도 목록 생성
-        불량원인_list = sorted(df_year['불량원인'].unique(), reverse=False) #sorted()함수로 오름차순 정력
+        불량원인_list = sorted(df_year['원인'].unique(), reverse=False) #sorted()함수로 오름차순 정력
         st.error('전체 불량원인 유형 데이터를 보려면 체크')
 
         # 체크박스로 선택된 불량원인 목록 가져오기
@@ -37,11 +37,11 @@ def run_app_불량원인():
         if not all_불량원인_selected and len(selected_불량원인_list) == 0:
             filtered_불량원인_df = pd.DataFrame()  # 빈 데이터프레임 생성
         else:
-            filtered_불량원인_df = df_year.loc[df_year['불량원인'].isin(selected_불량원인_list)]
+            filtered_불량원인_df = df_year.loc[df_year['원인'].isin(selected_불량원인_list)]
 
 
         # 선택된 불량원인에 해당하는 데이터프레임 필터링
-        filtered_불량원인_df = df_year.loc[df_year['불량원인'].isin(selected_불량원인_list)]
+        filtered_불량원인_df = df_year.loc[df_year['원인'].isin(selected_불량원인_list)]
 
         # 필터링된 데이터프레임 출력
         st.dataframe(filtered_불량원인_df)        
@@ -50,8 +50,8 @@ def run_app_불량원인():
         st.write("데이터프레임 개수:", len(filtered_불량원인_df))
 
         # 선택된 원인별 개수 데이터프레임 생성
-        count_df = pd.DataFrame({'불량원인': selected_불량원인_list})
-        count_df['데이터 개수'] = count_df['불량원인'].apply(lambda year: filtered_불량원인_df.loc[filtered_불량원인_df['불량원인'] == year].shape[0])
+        count_df = pd.DataFrame({'원인': selected_불량원인_list})
+        count_df['데이터 개수'] = count_df['원인'].apply(lambda year: filtered_불량원인_df.loc[filtered_불량원인_df['원인'] == year].shape[0])
 
         # 데이터 개수를 내람차순으로 정렬
         count_df = count_df.sort_values('데이터 개수', ascending=False)
@@ -67,15 +67,15 @@ def run_app_불량원인():
             plt.figure(figsize=(8, 6))
 
             # 데이터 개수를 내림차순으로 정렬한 순서로 그래프 그리기 (count_df 데이터프레임에서 합계행 제외시킴)
-            order = count_df[count_df.index != '합계']['불량원인'].values.tolist()
-            sns.countplot(data=filtered_불량원인_df, x='불량원인', order=order)
+            order = count_df[count_df.index != '합계']['원인'].values.tolist()
+            sns.countplot(data=filtered_불량원인_df, x='원인', order=order)
 
-            plt.xlabel('불량원인')
+            plt.xlabel('원인')
             plt.xticks(rotation=45)
             plt.ylabel('접수건수')
             plt.title('불량원인별 A/S 접수건수')
             plt.tight_layout()
-
+    
             # 그래프를 이미지로 변환하여 앱 대시보드에 표시
             st.write("불량원인 A/S 접수건수:")
             st.pyplot()
@@ -84,7 +84,7 @@ def run_app_불량원인():
         if not filtered_불량원인_df.empty:
             # 불량원인별 점유율 계산
             plt.figure(figsize=(10,6))
-            불량원인_counts = filtered_불량원인_df['불량원인'].value_counts()
+            불량원인_counts = filtered_불량원인_df['원인'].value_counts()
             labels = 불량원인_counts.index.tolist()
             sizes = 불량원인_counts.values.tolist()
             # 파이 그래프 그리기

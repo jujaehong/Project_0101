@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-df_year = pd.read_csv('df_total', index_col=0)
+df_year = pd.read_csv('df_total.csv',index_col=0)
 
 def run_app_부품공급업체():
     if st.header('수리부품별 부품공급업체 불량집계 데이터'):
@@ -19,25 +19,25 @@ def run_app_부품공급업체():
 
         st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
         if 전체선택:
-            selected_수리부품 = df_year['수리부품'].unique()
+            selected_수리부품 = df_year['수리부품_x'].unique()
         else:
             selected_수리부품 = st.multiselect('**특정 불량부품 공급업체 데이터만 보고 싶을 경우 아래에서 선택하세요**', 
-                                           df_year['수리부품'].unique())
+                                           df_year['수리부품_x'].unique())
 
         # 선택된 수리부품에 해당하는 데이터프레임 필터링
         if len(selected_수리부품) == 0:
             filtered_df = pd.DataFrame()  # 빈 데이터프레임 생성
         else:
-            filtered_df = df_year[df_year['수리부품'].isin(selected_수리부품)]
+            filtered_df = df_year[df_year['수리부품_x'].isin(selected_수리부품)]
 
         # df_year 데이터프레임의 수리부품과 부품공급업체 컬럼 가져오기
-        if '수리부품' in df_year.columns and '부품공급업체' in df_year.columns:
+        if '수리부품_x' in df_year.columns and '부품공급업체' in df_year.columns:
             # 선택한 수리부품에 해당하는 부품공급업체 그룹화 및 결과 저장
             result_df = pd.DataFrame(columns=['부품공급업체'])
 
             # 선택한 수리부품에 해당하는 부품공급업체 그룹화 및 결과 저장
             for 수리부품 in selected_수리부품:
-                grouped_selected = df_year[df_year['수리부품'] == 수리부품].groupby('부품공급업체').size().reset_index(name=수리부품)
+                grouped_selected = df_year[df_year['수리부품_x'] == 수리부품].groupby('부품공급업체').size().reset_index(name=수리부품)
                 result_df = pd.merge(result_df, grouped_selected, on='부품공급업체', how='outer')
 
             # 마지막 행에 부품공급업체별 개수의 합계 추가
@@ -51,7 +51,7 @@ def run_app_부품공급업체():
             # 선택한 수리부품별로 그래프 그리기
             for 수리부품 in selected_수리부품:
                 # 해당 수리부품에 대한 데이터프레임 필터링
-                part_df = filtered_df[filtered_df['수리부품'] == 수리부품]
+                part_df = filtered_df[filtered_df['수리부품_x'] == 수리부품]
 
                 if not part_df.empty:
                     # 해당 수리부품에 대한 부품공급업체 목록 가져오기
@@ -109,7 +109,7 @@ def run_app_부품공급업체():
             if len(selected_수리부품) == 0:
                 filtered_df = df_year  # 전체 데이터프레임 사용
             else:
-                filtered_df = df_year[df_year['수리부품'].isin(selected_수리부품)]
+                filtered_df = df_year[df_year['수리부품_x'].isin(selected_수리부품)]
 
         else:
             st.write("데이터프레임에 '수리부품' 또는 '부품공급업체' 컬럼이 존재하지 않습니다.")

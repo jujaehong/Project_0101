@@ -6,7 +6,7 @@ plt.rcParams['font.family'] = 'Malgun Gothic'  # 폰트 이름을 적절하게 �
 import seaborn as sns
 
 
-df_year = pd.read_csv('df_total',index_col=0)
+df_year = pd.read_csv('df_total.csv',index_col=0)
 
 def run_app_접수년도별():
 

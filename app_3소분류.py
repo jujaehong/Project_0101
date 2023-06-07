@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-df_year = pd.read_csv('df_total',index_col=0)
+df_year = pd.read_csv('df_total.csv',index_col=0)
 
 def run_app_3소분류():
     

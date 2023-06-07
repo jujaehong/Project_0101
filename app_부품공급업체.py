@@ -7,9 +7,8 @@ import seaborn as sns
 df_year = pd.read_csv('df_total', index_col=0)
 
 def run_app_부품공급업체():
-    if  st.header('수리부품별 부품공급업체 불량집계 데이터'):
+    if st.header('수리부품별 부품공급업체 불량집계 데이터'):
         st.markdown("<br><br>", unsafe_allow_html=True)  # 줄 간격 추가
-
 
         # 체크박스로 표시할 년도 목록 생성
         부품공급업체_list = sorted(df_year['부품공급업체'].unique(), reverse=False)
@@ -24,7 +23,6 @@ def run_app_부품공급업체():
         else:
             selected_수리부품 = st.multiselect('**특정 불량부품 공급업체 데이터만 보고 싶을 경우 아래에서 선택하세요**', 
                                            df_year['수리부품'].unique())
-
 
         # 선택된 수리부품에 해당하는 데이터프레임 필터링
         if len(selected_수리부품) == 0:
@@ -59,7 +57,7 @@ def run_app_부품공급업체():
                     # 해당 수리부품에 대한 부품공급업체 목록 가져오기
                     부품공급업체_list = sorted(part_df['부품공급업체'].unique(), reverse=True)
 
-                    plt.figure(figsize=(12, 6),dpi=80)
+                    plt.figure(figsize=(12, 6), dpi=80)
 
                     # 첫 번째 서브플롯: Count Plot
                     plt.subplot(1, 2, 1)
@@ -67,13 +65,21 @@ def run_app_부품공급업체():
                     color_mapping = {}  # 부품공급업체와 색상 매핑 딕셔너리 생성
                     for idx, supplier in enumerate(부품공급업체_list):
                         color_mapping[supplier] = colors[idx]
-                    sns.countplot(data=part_df, x='부품공급업체', palette=color_mapping.values(), order=부품공급업체_list)  # 내림차순으로 표시
-
+                    sns.countplot(
+                        data=part_df, x='부품공급업체', palette=color_mapping.values(), order=부품공급업체_list
+                    )  # 내림차순으로 표시
 
                     # 각 막대(bar)에 접수건수 표시
                     for p in plt.gca().patches:
                         height = p.get_height()
-                        plt.gca().text(p.get_x() + p.get_width() / 2, height / 2, '{:d} EA'.format(int(height)), ha='center', va='center', fontsize=15)
+                        plt.gca().text(
+                            p.get_x() + p.get_width() / 2,
+                            height / 2,
+                            '{:d} EA'.format(int(height)),
+                            ha='center',
+                            va='center',
+                            fontsize=15,
+                        )
 
                     plt.xlabel('부품공급업체')
                     plt.ylabel('접수건수')
@@ -85,7 +91,13 @@ def run_app_부품공급업체():
                     labels = 불량원인_counts.index.tolist()
                     sizes = 불량원인_counts.values.tolist()
 
-                    plt.pie(sizes, labels=labels, autopct='%1.1f%%', textprops={'fontsize': 15}, colors=[color_mapping[supplier] for supplier in labels])
+                    plt.pie(
+                        sizes,
+                        labels=labels,
+                        autopct='%1.1f%%',
+                        textprops={'fontsize': 15},
+                        colors=[color_mapping[supplier] for supplier in labels],
+                    )
                     plt.title(f'{수리부품}별 부품공급업체별 불량율 접수 데이터')
 
                     plt.tight_layout()
@@ -98,23 +110,6 @@ def run_app_부품공급업체():
                 filtered_df = df_year  # 전체 데이터프레임 사용
             else:
                 filtered_df = df_year[df_year['수리부품'].isin(selected_수리부품)]
-
-
-            if not filtered_df.empty:
-                # 불량원인별 점유율 계산
-                plt.figure(figsize=(10, 6),dpi=80)
-                불량원인_counts = filtered_df['수리부품'].value_counts()
-                labels = 불량원인_counts.index.tolist()
-                sizes = 불량원인_counts.values.tolist()
-                # 파이 그래프 그리기
-                plt.pie(sizes, labels=labels, autopct='%1.1f%%')
-                # 그래프 제목 설정
-                plt.title('전체 수리부품별 불량율 데이터')
-                # 그래프 출력
-                st.pyplot()
-
-            else:
-                st.write("선택된 수리부품에 해당하는 데이터가 없습니다.")
 
         else:
             st.write("데이터프레임에 '수리부품' 또는 '부품공급업체' 컬럼이 존재하지 않습니다.")

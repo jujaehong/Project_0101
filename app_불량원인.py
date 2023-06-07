@@ -4,6 +4,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+
+# 경고 비활성화
+st.set_option('deprecation.showPyplotGlobalUse', False)
+
 df_year = pd.read_csv('df_total',index_col=0)
 
 def run_app_불량원인():

@@ -6,24 +6,33 @@ plt.rcParams['font.family'] = 'Malgun Gothic'  # 폰트 이름을 적절하게 �
 import seaborn as sns
 
 
+df_year = pd.read_csv('df_total',index_col=0)
 
 def run_app_접수년도별():
 
-    df_year = pd.read_csv('df_total',index_col=0)
 
         
     if  st.header('접수도별 A/S 접수 데이터') :
+        st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
+        st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
 
         # 체크박스로 표시할 년도 목록 생성
         접수_years_list = sorted(df_year['접수년'].unique(), reverse=False) #sorted()함수로 오름차순 정력
 
+        st.error('전체 접수년도별 데이터를 보려면 체크')
+
         # 체크박스로 선택된 접수년도 목록 가져오기
         all_접수_selected = st.checkbox("모든 접수년도 선택")
+        st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
+        
+        if not all_접수_selected:
+            selection_label = "**특정 접수년도 데이터만 보고 싶을 경우 아래에서 선택하세요**"
+            selected_접수_list = st.multiselect(selection_label + ":", 접수_years_list, default=[])
+            if len(selected_접수_list) == 0:
+                st.stop()  # 데이터프레임과 그래프를 표시하지 않고 종료
 
-        if all_접수_selected:
-            selected_접수_list = 접수_years_list
         else:
-            selected_접수_list = st.multiselect('접수년도 선택', 접수_years_list)
+            selected_접수_list = 접수_years_list
 
         # 선택된 접수년도에 해당하는 데이터프레임 필터링
         if not all_접수_selected and len(selected_접수_list) == 0:

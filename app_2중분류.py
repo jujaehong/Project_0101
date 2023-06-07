@@ -10,17 +10,25 @@ def run_app_2중분류():
     
 
     if  st.header('불량유형 중분류별 A/S 접수 데이터') :
+        st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
+        st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
 
         # 체크박스로 표시할 년도 목록 생성
         중분류_list = sorted(df_year['불량유형_중'].unique(), reverse=False) #sorted()함수로 오름차순 정력
+        st.error('전체 중분류 유형 데이터를 보려면 체크')
 
         # 체크박스로 선택된 중분류 목록 가져오기
         all_중분류_selected = st.checkbox("모든 중분류 유형 선택")
+        st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
 
-        if all_중분류_selected:
-            selected_중분류_list = 중분류_list
+        if not all_중분류_selected:
+            selection_label = "**특정 중분류 유형 데이터만 보고 싶을 경우 아래에서 선택하세요**"
+            selected_중분류_list = st.multiselect(selection_label + ":", 중분류_list, default=[])
+            if len(selected_중분류_list) == 0:
+                st.stop()  # 데이터프레임과 그래프를 표시하지 않고 종료
+        
         else:
-            selected_중분류_list = st.multiselect('중분류 선택', 중분류_list)
+            selected_중분류_list = 중분류_list
 
         # 선택된 중분류에 해당하는 데이터프레임 필터링
         if not all_중분류_selected and len(selected_중분류_list) == 0:

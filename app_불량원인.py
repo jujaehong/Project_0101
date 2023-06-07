@@ -9,18 +9,25 @@ df_year = pd.read_csv('df_total',index_col=0)
 def run_app_불량원인():
    
     if  st.header('불량유형 원인별 A/S 접수 데이터') :
+        st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
+        st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
 
         # 체크박스로 표시할 년도 목록 생성
         불량원인_list = sorted(df_year['불량원인'].unique(), reverse=False) #sorted()함수로 오름차순 정력
-
+        st.error('전체 불량원인 유형 데이터를 보려면 체크')
 
         # 체크박스로 선택된 불량원인 목록 가져오기
         all_불량원인_selected = st.checkbox("모든 불량원인 선택")
+        st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
 
-        if all_불량원인_selected:
-            selected_불량원인_list = 불량원인_list
+        if not all_불량원인_selected:
+            selection_label = "**특정 불량원인 유형 데이터만 보고 싶을 경우 아래에서 선택하세요**"
+            selected_불량원인_list = st.multiselect(selection_label + ":", 불량원인_list, default=[])
+            if len(selected_불량원인_list) == 0:
+                st.stop()  # 데이터프레임과 그래프를 표시하지 않고 종료
+        
         else:
-            selected_불량원인_list = st.multiselect('불량원인 선택', 불량원인_list)
+            selected_불량원인_list = 불량원인_list
 
         # 선택된 불량원인에 해당하는 데이터프레임 필터링
         if not all_불량원인_selected and len(selected_불량원인_list) == 0:

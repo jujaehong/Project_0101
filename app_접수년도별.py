@@ -9,7 +9,7 @@ import seaborn as sns
 
 def run_app_접수년도별():
 
-    df_year = pd.read_csv('df_year',index_col=0)
+    df_year = pd.read_csv('df_total',index_col=0)
 
         
     if  st.header('접수도별 A/S 접수 데이터') :
@@ -17,22 +17,31 @@ def run_app_접수년도별():
         # 체크박스로 표시할 년도 목록 생성
         접수_years_list = sorted(df_year['접수년'].unique(), reverse=False) #sorted()함수로 오름차순 정력
 
-        # 체크박스로 선택된 년도 목록 가져오기
-        selected_접수_years = st.multiselect('접수년도 선택', 접수_years_list)
+        # 체크박스로 선택된 접수년도 목록 가져오기
+        all_접수_selected = st.checkbox("모든 접수년도 선택")
 
-        # 선택된 년도에 해당하는 데이터프레임 필터링
-        filtered_접수_df = df_year.loc[df_year['접수년'].isin(selected_접수_years)]
+        if all_접수_selected:
+            selected_접수_list = 접수_years_list
+        else:
+            selected_접수_list = st.multiselect('접수년도 선택', 접수_years_list)
+
+        # 선택된 접수년도에 해당하는 데이터프레임 필터링
+        if not all_접수_selected and len(selected_접수_list) == 0:
+            filtered_접수_df = pd.DataFrame()  # 빈 데이터프레임 생성
+        else:
+            filtered_접수_df = df_year.loc[df_year['접수년'].isin(selected_접수_list)]
 
         # 필터링된 데이터프레임 출력
         st.dataframe(filtered_접수_df)        
 
         # 선택된 연도별 개수 데이터프레임 생성
-        count_df = pd.DataFrame({'접수년': selected_접수_years})
+        count_df = pd.DataFrame({'접수년': selected_접수_list})
         count_df['데이터 개수'] = count_df['접수년'].apply(lambda year: filtered_접수_df.loc[filtered_접수_df['접수년'] == year].shape[0])
 
         # 갯수의 합계 계산하여 추가
         count_df.loc['합계'] = ['', count_df['데이터 개수'].sum()]
 
+        st.dataframe(count_df)
 
         # 접수년도별 Count Plot 그리기
         if not filtered_접수_df.empty:

@@ -4,38 +4,61 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+df_year = pd.read_csv('df_total',index_col=0)
 
 def run_app_불량원인():
-    file_uploader1 = st.file_uploader('접수데이터', key='file_uploader1')
+   
+    if  st.header('불량유형 원인별 A/S 접수 데이터') :
 
-    if file_uploader1 is not None:
-        df_a = pd.read_csv(file_uploader1)
-        st.dataframe(df_a)
-        
-        st.header('불량원인 분석 데이터')
-        # 체크박스로 표시할 불량원인 목록 생성
-        불량원인_list = df_a['불량원인'].unique()
-        불량원인_list = sorted(불량원인_list, reverse=False)
+        # 체크박스로 표시할 년도 목록 생성
+        불량원인_list = sorted(df_year['불량원인'].unique(), reverse=False) #sorted()함수로 오름차순 정력
+
+
         # 체크박스로 선택된 불량원인 목록 가져오기
-        selected_불량원인_list = st.multiselect('불량원인 목록 선택', 불량원인_list)
+        all_불량원인_selected = st.checkbox("모든 불량원인 선택")
+
+        if all_불량원인_selected:
+            selected_불량원인_list = 불량원인_list
+        else:
+            selected_불량원인_list = st.multiselect('불량원인 선택', 불량원인_list)
+
         # 선택된 불량원인에 해당하는 데이터프레임 필터링
-        filtered_불량원인_df = df_a.loc[df_a['불량원인'].isin(selected_불량원인_list)]
+        if not all_불량원인_selected and len(selected_불량원인_list) == 0:
+            filtered_불량원인_df = pd.DataFrame()  # 빈 데이터프레임 생성
+        else:
+            filtered_불량원인_df = df_year.loc[df_year['불량원인'].isin(selected_불량원인_list)]
+
+
+        # 선택된 불량원인에 해당하는 데이터프레임 필터링
+        filtered_불량원인_df = df_year.loc[df_year['불량원인'].isin(selected_불량원인_list)]
+
         # 필터링된 데이터프레임 출력
         st.dataframe(filtered_불량원인_df)        
-        # 선택된 불량원인 개수 데이터프레임 생성
+
+        # 분류된 데이터프레임의 개수 출력
+        st.write("데이터프레임 개수:", len(filtered_불량원인_df))
+
+        # 선택된 원인별 개수 데이터프레임 생성
         count_df = pd.DataFrame({'불량원인': selected_불량원인_list})
         count_df['데이터 개수'] = count_df['불량원인'].apply(lambda year: filtered_불량원인_df.loc[filtered_불량원인_df['불량원인'] == year].shape[0])
+
+        # 데이터 개수를 내람차순으로 정렬
+        count_df = count_df.sort_values('데이터 개수', ascending=False)
+
         # 갯수의 합계 계산하여 추가
         count_df.loc['합계'] = ['', count_df['데이터 개수'].sum()]
-        # 데이터프레임 가로 넓이 설정
-        count_df_style = count_df.style.set_table_attributes("style='width:100%;'")
-        st.dataframe(count_df_style)
+
+        st.dataframe(count_df)
 
         # 불량원인별 Count Plot 그리기
         if not filtered_불량원인_df.empty:
             st.set_option('deprecation.showPyplotGlobalUse', False)
             plt.figure(figsize=(8, 6))
-            sns.countplot(data=filtered_불량원인_df, x='불량원인')
+
+            # 데이터 개수를 내림차순으로 정렬한 순서로 그래프 그리기 (count_df 데이터프레임에서 합계행 제외시킴)
+            order = count_df[count_df.index != '합계']['불량원인'].values.tolist()
+            sns.countplot(data=filtered_불량원인_df, x='불량원인', order=order)
+
             plt.xlabel('불량원인')
             plt.xticks(rotation=45)
             plt.ylabel('접수건수')

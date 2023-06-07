@@ -9,36 +9,46 @@ import seaborn as sns
 
 def run_app_제조년도별():
 
-    df_year = pd.read_csv('df_year',index_col=0)
+    df_year = pd.read_csv('df_total',index_col=0)
 
         
-    if  st.header('제조년도별 A/S 접수 데이터') :
+    if  st.header('제조년도별 A/S 제조 데이터') :
 
         # 체크박스로 표시할 년도 목록 생성
         제조_years_list = sorted(df_year['제조년'].unique(), reverse=False) #sorted()함수로 오름차순 정력
 
-        # 체크박스로 선택된 년도 목록 가져오기
-        selected_제조_years = st.multiselect('제조년도 선택', 제조_years_list)
+        # 체크박스로 선택된 제조년도 목록 가져오기
+        all_제조_selected = st.checkbox("모든 제조년도 선택")
 
-        # 선택된 년도에 해당하는 데이터프레임 필터링
-        filtered_df = df_year.loc[df_year['제조년'].isin(selected_제조_years)]
+        if all_제조_selected:
+            selected_제조_list = 제조_years_list
+        else:
+            selected_제조_list = st.multiselect('제조년도 선택', 제조_years_list)
 
+        # 선택된 제조년도에 해당하는 데이터프레임 필터링
+        if not all_제조_selected and len(selected_제조_list) == 0:
+            filtered_제조_df = pd.DataFrame()  # 빈 데이터프레임 생성
+        else:
+            filtered_제조_df = df_year.loc[df_year['제조년'].isin(selected_제조_list)]
         # 필터링된 데이터프레임 출력
-        st.dataframe(filtered_df)        
+        st.dataframe(filtered_제조_df)        
 
         # 선택된 연도별 개수 데이터프레임 생성
-        count_df = pd.DataFrame({'제조년': selected_제조_years})
-        count_df['데이터 개수'] = count_df['제조년'].apply(lambda year: filtered_df.loc[filtered_df['제조년'] == year].shape[0])
+        count_df = pd.DataFrame({'제조년': selected_제조_list})
+        count_df['데이터 개수'] = count_df['제조년'].apply(lambda year: filtered_제조_df.loc[filtered_제조_df['제조년'] == year].shape[0])
+
 
         # 갯수의 합계 계산하여 추가
         count_df.loc['합계'] = ['', count_df['데이터 개수'].sum()]
 
+        st.dataframe(count_df)
+
 
         # 제조년도별 Count Plot 그리기
-        if not filtered_df.empty:
+        if not filtered_제조_df.empty:
             st.set_option('deprecation.showPyplotGlobalUse', False)
             plt.figure(figsize=(8, 6))
-            sns.countplot(data=filtered_df, x='제조년')
+            sns.countplot(data=filtered_제조_df, x='제조년')
             plt.xlabel('제조년도')
             plt.ylabel('접수건수')
             plt.title('제조년도별 A/S 접수건수')
@@ -49,10 +59,10 @@ def run_app_제조년도별():
             st.pyplot()
 
 
-        if not filtered_df.empty :
+        if not filtered_제조_df.empty :
             # 제조년도별 점유율 계산
             plt.figure(figsize=(10,6))
-            제조년_counts = filtered_df['제조년'].value_counts()
+            제조년_counts = filtered_제조_df['제조년'].value_counts()
             labels = 제조년_counts.index.tolist()
             sizes = 제조년_counts.values.tolist()
             # 파이 그래프 그리기

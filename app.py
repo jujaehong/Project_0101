@@ -7,6 +7,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.cluster import KMeans
 import numpy as np
 import matplotlib.pyplot as plt
+import io
 from app_홈 import run_app_홈
 from app_제조년도별 import run_app_제조년도별
 from app_접수년도별 import run_app_접수년도별
@@ -14,13 +15,25 @@ from app_1대분류 import run_app_1대분류
 from app_2중분류 import run_app_2중분류
 from app_3소분류 import run_app_3소분류
 from app_불량원인 import run_app_불량원인
+from app_부품공급업체 import run_app_부품공급업체
 
 
 
 def main():
+    with st.sidebar:
+        choice = option_menu("메뉴", ['Home', '기간별분석', '유형별분석', '불량원인', '수리부품별 부품공급업체'],
+                            icons=['house', 'camera fill', 'kanban', 'kanban', 'kanban'],
+                            menu_icon="app-indicator", default_index=0,
+                            styles={
+            "container": {"padding": "5!important", "background-color": "#fafafa"},
+            "icon": {"color": "orange", "font-size": "25px"}, 
+            "nav-link": {"font-size": "16px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
+            "nav-link-selected": {"background-color": "#02ab21"},
+        }
+        )
 
-    menu = ['Home', '기간별분석', '유형별분석', '불량원인']
-    choice = st.sidebar.selectbox('메뉴', menu)
+    menu = ['Home', '기간별분석', '유형별분석', '불량원인', '수리부품별 부품공급업체']
+    
 
     if choice == menu[0]:
         run_app_홈()
@@ -50,6 +63,10 @@ def main():
         
     elif choice == menu[3]:
         run_app_불량원인()
+
+    elif choice == menu[4]:
+        run_app_부품공급업체()  
+      
 
 
 

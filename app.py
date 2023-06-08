@@ -14,6 +14,7 @@ from app_3소분류 import run_app_3소분류
 from app_불량원인 import run_app_불량원인
 from app_부품공급업체 import run_app_부품공급업체
 from app_수리부품 import run_app_수리부품
+from app_품질보증 import run_app_품질보증
 
 import platform
 platform.platform()
@@ -23,17 +24,16 @@ else:
     plt.rcParams['font.family'] = 'NanumGothic'
 
 
-
 def main():
     
     # st.sidebar.image('https://littledeep.com/wp-content/uploads/2020/09/tv-illustration-free-download.png', use_column_width=True)
     
-    menu = ['Home', '기간별분석', '유형별분석', '불량원인', '수리부품별 부품공급업체']
+    menu = ['Home', '기간별분석', '유형별분석', '불량원인', '수리부품별 부품공급업체', '품질보증기간 내/외']
     
     
     with st.sidebar:
-        choice = option_menu("메뉴", ['Home', '기간별분석', '유형별분석', '불량원인', '수리부품별 부품공급업체'],
-                            icons=['bi bi-arrow-down-circle-fill', 'bi bi-calendar2-date', 'kanban', 'kanban', 'kanban'],
+        choice = option_menu("메뉴", ['Home', '기간별분석', '유형별분석', '불량원인', '수리부품별 부품공급업체', '품질보증기간 내/외'],
+                            icons=['bi bi-arrow-down-circle-fill', 'bi bi-calendar2-date', 'kanban', 'kanban', 'kanban', 'kanban'],
                             menu_icon="app-indicator", default_index=0,
                             styles={
             "container": {"padding": "5!important", "background-color": "#fafafa"},
@@ -108,7 +108,9 @@ def main():
             run_app_수리부품()
         elif choice3 == menu3[1]:
             run_app_부품공급업체()
-        
+
+    elif choice == menu[5]:
+        run_app_품질보증()    
 
 
 if __name__ == '__main__':

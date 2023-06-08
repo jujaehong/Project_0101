@@ -3,7 +3,9 @@
 ### 모델명 : SSAN-TV-4
 - A/S 데이터 수집기간 : 2021년 05월 01일부터 ~ 2023년 05월 31일까지
 - 총 수집 데이터 : 10,000
-
+### 데이터 설명
+- 본 데이터는 2020년부터 제조/판매된 휴대용 스마트 TV_기획상품을 2023년 05월 31일 까지 축척된 A/S접수데이터 10,000개를 사용하여
+- 기간별, 불량유형별(대,중,소), 불량원인별, 불량부품별 및 부품공급업체에 대한 데이터분석을 한다.
 ### 분석 데이터 개수 : 2EA
 - 1. AS_Management_Data_A.csv
 - 2. AS_Management_Data_B.csv
@@ -94,15 +96,22 @@
    #### Github Desktop를 사용하여 Commit 및 Push
    #### PuTTY 실행
     - ec2-user 입력
-    - 가상환경 진입
+    - 가상환경 진입 ( conda activate app_dash )
     - cd Github 폴더진입
-    - git clone 하기
-   #### github Settings -> Secres and vaiables -> Actions 진입 후 Repository secrets 만들기
+    - git clone "github에서 경로복사 붙여넣기"
+   #### Github 프로젝트 레파지토리에서 github Settings -> Secres and vaiables -> Actions 진입 후 Repository secrets 만들기
     - HOST
     - SSH_PRIVATE)KEY ( app_dashboard.pem 메모장으로 열어 내용 복사 후 삽입 )
     - USER
-   #### Actions -> set up a workflow yourself 진입
+   #### Github 프로젝트 레파지토리에서 Actions -> set up a workflow yourself 진입
     - main.yml 작성 ( 경로는 PuTTY에서 clone한 위치경로를 넣어준다. )
+   #### AWS 프리 티어 접속 -> 인스턴스 보안 설정 ( IP주소,포트 확인 및 설정 )
+    - PuTTY 에서 프로젝트 파일 경로로 진입 후 streamlit run app.py 실행
+    - 정상적으로 동작이 잘 되고 수정사항이 없다면 PuTTY를 꺼도 동작이 되도록 하기
+    - 명령어 ( nohup streamlit run app.py & )
+   
+   ### 최종 프로젝트 경로 http://52.79.169.117:8601/
+   
     
     
   

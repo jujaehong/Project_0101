@@ -33,7 +33,7 @@ def main():
     
     with st.sidebar:
         choice = option_menu("메뉴", ['Home', '기간별분석', '유형별분석', '불량원인', '수리부품별 부품공급업체'],
-                            icons=['bi bi-arrow-down-circle-fill', 'camera fill', 'kanban', 'kanban', 'kanban'],
+                            icons=['bi bi-arrow-down-circle-fill', 'bi bi-calendar2-date', 'kanban', 'kanban', 'kanban'],
                             menu_icon="app-indicator", default_index=0,
                             styles={
             "container": {"padding": "5!important", "background-color": "#fafafa"},

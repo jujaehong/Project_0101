@@ -7,6 +7,7 @@ import pandas as pd
 # from sklearn.cluster import KMeans
 import numpy as np
 import matplotlib.pyplot as plt
+plt.rcParams['font.family'] = 'Malgun Gothic'
 import plotly.express as px
 # import io
 from streamlit_option_menu import option_menu
@@ -93,10 +94,10 @@ def main():
         run_app_불량원인()
 
     elif choice == menu[4]:
-        menu3 = ['수리부품별 데이터', '부품공급업체별 데잍터']
+        menu3 = ['수리부품별 데이터', '부품공급업체별 데이터']
         with st.sidebar:
-            choice3 = option_menu("세부", ['수리부품별 데이터', '부품공급업체별 데잍터'],
-                                icons=['bi bi-arrow-down-circle-fill', 'kanban'],
+            choice3 = option_menu("세부", ['수리부품별 데이터', '부품공급업체별 데이터'],
+                                icons=['kanban', 'kanban'],
                                 menu_icon="app-indicator", default_index=0,
                                 styles={
                 "container": {"padding": "5!important", "background-color": "#fafafa"},

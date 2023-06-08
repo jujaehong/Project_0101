@@ -4,22 +4,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-import platform
-platform.platform()
-if platform.system() == 'Windows':
-    plt.rcParams['font.family'] = 'Malgun Gothic'
-else:
-    plt.rcParams['font.family'] = 'NanumGothic'
-
-
 
 df_year = pd.read_csv('df_total.csv',index_col=0)
 
 def run_app_제조년도별():
 
 
-
-        
+       
     if  st.header('제조년도별 A/S 제조 데이터') :
         st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
         st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가

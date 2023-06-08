@@ -94,7 +94,7 @@ def main():
         run_app_불량원인()
 
     elif choice == menu[4]:
-        menu3 = ['수리부품별 데이터', '부품공급업체별 데이터']
+        menu3 = ['수리부품별 분석 데이터', '부품공급업체별 데이터']
         with st.sidebar:
             choice3 = option_menu("세부", ['수리부품별 데이터', '부품공급업체별 데이터'],
                                 icons=['kanban', 'kanban'],

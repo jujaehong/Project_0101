@@ -2,8 +2,14 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-plt.rcParams['font.family'] = 'Malgun Gothic'  # 폰트 이름을 적절하게 변경하세요
 import seaborn as sns
+
+import platform
+platform.platform()
+if platform.system() == 'Windows':
+    plt.rcParams['font.family'] = 'Malgun Gothic'
+else:
+    plt.rcParams['font.family'] = 'NanumGothic'
 
 
 df_year = pd.read_csv('df_total.csv',index_col=0)

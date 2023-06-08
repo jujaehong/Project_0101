@@ -4,6 +4,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+import platform
+platform.platform()
+if platform.system() == 'Windows':
+    plt.rcParams['font.family'] = 'Malgun Gothic'
+else:
+    plt.rcParams['font.family'] = 'NanumGothic'
+
 df_year = pd.read_csv('df_total.csv',index_col=0)
 
 def run_app_2중분류():

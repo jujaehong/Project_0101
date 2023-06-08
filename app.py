@@ -1,15 +1,15 @@
 import streamlit as st
 import pandas as pd
-# from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-# from sklearn.compose import ColumnTransformer
-# from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import MinMaxScaler
 # sklean.preprocessing은 데이터 전처리 관련
-# from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans
 import numpy as np
 import matplotlib.pyplot as plt
 plt.rcParams['font.family'] = 'Malgun Gothic'
 import plotly.express as px
-# import io
+import io
 from streamlit_option_menu import option_menu
 import streamlit.components.v1 as html
 from  PIL import Image
@@ -22,6 +22,13 @@ from app_3소분류 import run_app_3소분류
 from app_불량원인 import run_app_불량원인
 from app_부품공급업체 import run_app_부품공급업체
 from app_수리부품 import run_app_수리부품
+
+import platform
+platform.platform()
+if platform.system() == 'Windows':
+    plt.rcParams['font.family'] = 'Malgun Gothic'
+else:
+    plt.rcParams['font.family'] = 'NanumGothic'
 
 
 
@@ -96,7 +103,7 @@ def main():
     elif choice == menu[4]:
         menu3 = ['수리부품별 분석 데이터', '부품공급업체별 데이터']
         with st.sidebar:
-            choice3 = option_menu("세부", ['수리부품별 데이터', '부품공급업체별 데이터'],
+            choice3 = option_menu("세부", ['수리부품별 분석 데이터', '부품공급업체별 데이터'],
                                 icons=['kanban', 'kanban'],
                                 menu_icon="app-indicator", default_index=0,
                                 styles={

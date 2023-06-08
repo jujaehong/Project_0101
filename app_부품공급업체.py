@@ -1,6 +1,6 @@
+# import numpy as np
 import streamlit as st
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -9,6 +9,7 @@ import seaborn as sns
 df_year = pd.read_csv('df_total.csv',index_col=0)
 
 def run_app_부품공급업체():
+
     if st.header('수리부품별 부품공급업체 불량집계 데이터'):
         st.markdown("<br><br>", unsafe_allow_html=True)  # 줄 간격 추가
 

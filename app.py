@@ -1,18 +1,8 @@
 import streamlit as st
 import pandas as pd
-# from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-# from sklearn.compose import ColumnTransformer
-# from sklearn.preprocessing import MinMaxScaler
-# sklean.preprocessing은 데이터 전처리 관련
-# from sklearn.cluster import KMeans
 import numpy as np
 import matplotlib.pyplot as plt
-# plt.rcParams['font.family'] = 'Malgun Gothic'
-import plotly.express as px
-import io
 from streamlit_option_menu import option_menu
-import streamlit.components.v1 as html
-from  PIL import Image
 
 # 정의된 함수 불러오기
 from app_홈 import run_app_홈
@@ -125,3 +115,14 @@ if __name__ == '__main__':
     main()
 
 
+# 참고 라이브러리
+# import plotly.express as px
+# from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+# from sklearn.compose import ColumnTransformer
+# from sklearn.preprocessing import MinMaxScaler
+# sklean.preprocessing은 데이터 전처리 관련
+# from sklearn.cluster import KMeans
+# plt.rcParams['font.family'] = 'Malgun Gothic'
+# import io
+# import streamlit.components.v1 as html
+# from  PIL import Image 

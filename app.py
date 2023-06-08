@@ -1,14 +1,14 @@
 import streamlit as st
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import MinMaxScaler
+# from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+# from sklearn.compose import ColumnTransformer
+# from sklearn.preprocessing import MinMaxScaler
 # sklean.preprocessing은 데이터 전처리 관련
-from sklearn.cluster import KMeans
+# from sklearn.cluster import KMeans
 import numpy as np
 import matplotlib.pyplot as plt
 import plotly.express as px
-import io
+# import io
 from streamlit_option_menu import option_menu
 import streamlit.components.v1 as html
 from  PIL import Image

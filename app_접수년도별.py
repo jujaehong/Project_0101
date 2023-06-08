@@ -51,7 +51,7 @@ def run_app_접수년도별():
         # 갯수의 합계 계산하여 추가
         count_df.loc['합계'] = ['', count_df['데이터 개수'].sum()]
 
-        st.dataframe(count_df)
+        st.dataframe(count_df) 
 
         # 접수년도별 Count Plot 그리기
         if not filtered_접수_df.empty:

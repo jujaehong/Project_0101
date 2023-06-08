@@ -51,7 +51,7 @@ def main():
      
         with st.sidebar:
             choice1 = option_menu("세부", ['제조년도별 데이터분석', '접수년도별 데이터분석'],
-                                icons=['bi bi-arrow-down-circle-fill', 'kanban'],
+                                icons=['bi bi-calendar2-date', 'bi bi-calendar2-date'],
                                 menu_icon="app-indicator", default_index=0,
                                 styles={
                 "container": {"padding": "5!important", "background-color": "#fafafa"},

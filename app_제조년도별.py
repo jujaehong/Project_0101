@@ -11,17 +11,17 @@ def run_app_제조년도별():
 
 
        
-    if  st.header('제조년도별 A/S 제조 데이터') :
+    if  st.header('제조년도별 A/S 접수 데이터') :
         st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
         st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
 
         # 체크박스로 표시할 년도 목록 생성
         제조_years_list = sorted(df_year['제조년'].unique(), reverse=False) #sorted()함수로 오름차순 정력
         
-        st.error('전체 제조년도별 데이터를 보려면 체크')
+        st.error('전체 데이터를 보려면 아래 체크박스를 체크하세요!')
 
         # 체크박스로 선택된 제조년도 목록 가져오기
-        all_제조_selected = st.checkbox("모든 제조년도 선택")
+        all_제조_selected = st.checkbox("ALL 데이터 보기")
         st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
 
 

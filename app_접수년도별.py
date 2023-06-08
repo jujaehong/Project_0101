@@ -13,17 +13,17 @@ def run_app_접수년도별():
 
 
         
-    if  st.header('접수도별 A/S 접수 데이터') :
+    if  st.header('접수년도별 A/S 접수 데이터') :
         st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
         st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
 
         # 체크박스로 표시할 년도 목록 생성
         접수_years_list = sorted(df_year['접수년'].unique(), reverse=False) #sorted()함수로 오름차순 정력
 
-        st.error('전체 접수년도별 데이터를 보려면 체크')
+        st.error('전체 데이터를 보려면 아래 체크박스를 체크하세요!')
 
         # 체크박스로 선택된 접수년도 목록 가져오기
-        all_접수_selected = st.checkbox("모든 접수년도 선택")
+        all_접수_selected = st.checkbox("ALL 데이터 보기")
         st.markdown("<br>", unsafe_allow_html=True)  # 줄 간격 추가
         
         if not all_접수_selected:
